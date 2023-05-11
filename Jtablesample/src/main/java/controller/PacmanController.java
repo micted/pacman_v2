@@ -1,9 +1,12 @@
 package controller;
 
+import interfaces.PacmanTableListener;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -16,6 +19,7 @@ public class PacmanController implements KeyListener {
     private int pacmanRow;
     private int pacmanCol;
     private Thread pacmanThread;
+    private List<PacmanTableListener> tableListeners = new ArrayList<>();
 
     public PacmanController(JTable table, PacmanTableModel model) {
         this.table = table;
@@ -50,7 +54,7 @@ public class PacmanController implements KeyListener {
     private void movePacman() {
         int currentRow = pacmanRow;
         int currentCol = pacmanCol;
-        // determine the next cell to move to based on the direction of the last arrow key pressed
+        // determine the next cell according to lastkeycode 
         switch (lastKeyCode) {
             case KeyEvent.VK_UP:
                 currentRow--;
@@ -67,22 +71,65 @@ public class PacmanController implements KeyListener {
             default:
                 return; // ignore other keys
         }
-        // check if the new cell is within the bounds of the table
+        // check new cell within the bound
         if (currentRow >= 0 && currentRow < model.getRowCount() && currentCol >= 0 && currentCol < model.getColumnCount()) {
             // check if the new cell is already occupied by another Pacman image
             if (model.getValueAt(currentRow, currentCol) == null) {
-                // move the Pacman image to the new cell
-                model.setValueAt(0, pacmanRow, pacmanCol); // erase the old Pacman image
+                // zero to make the pacman image disappear
+                model.setValueAt(0, pacmanRow, pacmanCol);
                 model.setValueAt(1, currentRow, currentCol);
-                table.repaint(); // force table to redraw
+                table.repaint(); 
 
                 // update the current position of the Pacman image
                 pacmanRow = currentRow;
                 pacmanCol = currentCol;
+                
+                // calculate rotation angle and notify listeners
+                int angle = calculateRotationAngle();
+                System.out.println(angle);
+                for (PacmanTableListener listener : tableListeners) {
+                    listener.onPacmanRotated(angle);
+                }
             }
         }
     }
+    
+    
 
+    public int calculateRotationAngle() {
+    switch (lastKeyCode) {
+        case KeyEvent.VK_UP:
+            return 270;
+        case KeyEvent.VK_DOWN:
+            return 90;
+        case KeyEvent.VK_LEFT:
+            return 180;
+        case KeyEvent.VK_RIGHT:
+            return 0;
+        default:
+            return 0;
+    }
+}
+
+    
+    
+    
+    
+    // ...
+    
+    public void addTableListener(PacmanTableListener listener) {
+        tableListeners.add(listener);
+    }
+    
+    public void removeTableListener(PacmanTableListener listener) {
+        tableListeners.remove(listener);
+    }
+    
+    
+
+    
+    
+    // way of tracking the last key pressed 
     private int lastKeyCode = -1;
 
     @Override

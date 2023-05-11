@@ -14,6 +14,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 
 import javax.swing.JLabel;
@@ -28,7 +29,8 @@ public class Renderer extends DefaultTableCellRenderer {
         super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         
         if (value instanceof Image) {
-            setIcon(new ImageIcon((Image) value));
+            ImageIcon icon = new ImageIcon((Image) value);            
+            setIcon(icon);
         } else {
             setIcon(null);
         }
@@ -42,4 +44,5 @@ public class Renderer extends DefaultTableCellRenderer {
         super.paintComponent(g);
         // you don't need to do anything here
     }
+    
 }

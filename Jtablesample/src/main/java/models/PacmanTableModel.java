@@ -3,8 +3,9 @@ import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 import java.awt.Image;
 import controller.PacmanController;
+import interfaces.PacmanTableListener;
 
-public class PacmanTableModel extends AbstractTableModel {
+public class PacmanTableModel extends AbstractTableModel implements PacmanTableListener{
     
     
 
@@ -12,12 +13,13 @@ public class PacmanTableModel extends AbstractTableModel {
     private Image pacmanImage;
     private int currentRow;
     private int currentCol;
+    private int angle = 0;
         
     
 
     public PacmanTableModel(int[][] data) {
         this.data = data;
-        this.pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman.png").getImage();
+        //this.pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman.png").getImage();
        
         
 
@@ -32,10 +34,35 @@ public class PacmanTableModel extends AbstractTableModel {
     public int getColumnCount() {
         return data[0].length;
     }
+    
+    @Override
+    public void onPacmanRotated(int angle) {
+        this.angle = angle;
+        fireTableDataChanged();
+    }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
+        
+        
         if (data[rowIndex][columnIndex] == 1) {
+            
+             if (angle >= -45 && angle < 45) {
+            // pacman facing right
+                pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman.png").getImage();
+            } else if (angle >= 45 && angle < 135) {
+                // pacman facing up
+                pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_down.png").getImage();
+            } else if (angle >= 135 && angle < 225) {
+                // pacman facing left
+                pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_left.png").getImage();
+            } else if (angle >= 225 && angle < 315) {
+                // pacman facing down
+                pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_up.png").getImage();
+            } else {
+                // pacman facing right
+                pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman.png").getImage();
+            }
             return pacmanImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         } else {
             return null;

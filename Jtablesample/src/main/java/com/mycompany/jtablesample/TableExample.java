@@ -68,6 +68,7 @@ public class TableExample extends JFrame {
         
         // create and add PacmanController as key listener
         PacmanController controller = new PacmanController(table, model);
+        controller.addTableListener(model);
         table.addKeyListener(controller);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
