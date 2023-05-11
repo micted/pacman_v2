@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Random;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -20,6 +21,8 @@ public class PacmanController implements KeyListener {
     private int pacmanCol;
     private Thread pacmanThread;
     private List<PacmanTableListener> tableListeners = new ArrayList<>();
+    int randomValue;
+     private final Object lock = new Object();
 
     public PacmanController(JTable table, PacmanTableModel model) {
         this.table = table;
@@ -27,9 +30,12 @@ public class PacmanController implements KeyListener {
         // find the initial row and column of the Pacman image
         for (int row = 0; row < model.getRowCount(); row++) {
             for (int col = 0; col < model.getColumnCount(); col++) {
-                if (model.getValueAt(row, col) != null) {
+                // FIRST GRAB THE INITIAL POSITION OF PACMAN
+                if (model.getValueAt(row, col) != null && model.getValue(row, col)==1) { // 1 REPRESENT PACMAN
                     pacmanRow = row;
-                    pacmanCol = col;
+                    System.out.println(pacmanRow);
+                    pacmanCol = col;  
+                    System.out.println(pacmanCol);
                     break;
                 }
             }
@@ -40,11 +46,15 @@ public class PacmanController implements KeyListener {
             public void run() {
                 while (true) {
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(150);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    movePacman();
+                    synchronized (lock) { 
+                        randomValue = getRandomValue();
+                        movePacman();
+                    }
+                    
                 }
             }
         });
@@ -73,6 +83,12 @@ public class PacmanController implements KeyListener {
         }
         // check new cell within the bound
         if (currentRow >= 0 && currentRow < model.getRowCount() && currentCol >= 0 && currentCol < model.getColumnCount()) {
+            
+            if (model.getValueAt(currentRow, currentCol) != null && model.getValueAt(currentRow, currentCol).equals(21)) {
+                // do not move if it's a wall
+                return;
+            }
+
             // check if the new cell is already occupied by another Pacman image
             if (model.getValueAt(currentRow, currentCol) == null) {
                 // zero to make the pacman image disappear
@@ -86,9 +102,10 @@ public class PacmanController implements KeyListener {
                 
                 // calculate rotation angle and notify listeners
                 int angle = calculateRotationAngle();
+                
                 System.out.println(angle);
                 for (PacmanTableListener listener : tableListeners) {
-                    listener.onPacmanRotated(angle);
+                    listener.onPacmanRotated(angle,randomValue);
                 }
             }
         }
@@ -109,7 +126,13 @@ public class PacmanController implements KeyListener {
         default:
             return 0;
     }
-}
+    }
+    
+    public int getRandomValue() {
+        Random rand = new Random();
+        return rand.nextInt(2);
+    }
+
 
     
     

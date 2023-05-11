@@ -9,6 +9,6 @@ package interfaces;
  * @author Hp
  */
 public interface PacmanTableListener {
-    void onPacmanRotated(int angle);
+    void onPacmanRotated(int angle,int random);
 }
 

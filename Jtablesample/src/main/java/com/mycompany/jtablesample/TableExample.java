@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import models.MazeGenerator;
 import models.PacmanTableModel;
 
 
@@ -28,19 +29,32 @@ public class TableExample extends JFrame {
 
     public TableExample(int boardSize) {
         // create the model and table with zeros
-        int[][] data = new int[boardSize][boardSize];
+        //int[][] data = new int[boardSize][boardSize];
+        int[][] mazeD = new MazeGenerator(boardSize,boardSize).generateMaze();
         for (int i = 0; i < boardSize; i++) {
             for (int j = 0; j < boardSize; j++) {
-                data[i][j] = 0;
+                //data[i][j] = 0;
             }
         }
         // randomly place a single "1" value
         Random random = new Random();
+        
+        
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
+                int row = random.nextInt(5);
+                int col = random.nextInt(5);
+                //data[row][col] = 21;
+            }
+        }
+        
         int row = random.nextInt(boardSize);
         int col = random.nextInt(boardSize);
-        data[row][col] = 1;
+        mazeD[row][col] = 1;
+        
+        
 
-        PacmanTableModel model = new PacmanTableModel(data);
+        PacmanTableModel model = new PacmanTableModel(mazeD);
         JTable table = new JTable(model);
         //table.setRowSelectionAllowed(false);
         table.setSelectionBackground(Color.BLACK);

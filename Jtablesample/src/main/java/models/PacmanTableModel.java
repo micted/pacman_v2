@@ -14,6 +14,7 @@ public class PacmanTableModel extends AbstractTableModel implements PacmanTableL
     private int currentRow;
     private int currentCol;
     private int angle = 0;
+    private int random = 0;
         
     
 
@@ -24,6 +25,11 @@ public class PacmanTableModel extends AbstractTableModel implements PacmanTableL
         
 
     }
+    
+    public int getValue(int rowIndex, int columnIndex) {
+        return data[rowIndex][columnIndex] == 1 ? 1 : 0;
+    }
+
 
     @Override
     public int getRowCount() {
@@ -35,9 +41,12 @@ public class PacmanTableModel extends AbstractTableModel implements PacmanTableL
         return data[0].length;
     }
     
+    
+    
     @Override
-    public void onPacmanRotated(int angle) {
+    public void onPacmanRotated(int angle,int random) {
         this.angle = angle;
+        this.random = random;
         fireTableDataChanged();
     }
 
@@ -48,24 +57,51 @@ public class PacmanTableModel extends AbstractTableModel implements PacmanTableL
         if (data[rowIndex][columnIndex] == 1) {
             
              if (angle >= -45 && angle < 45) {
-            // pacman facing right
-                pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman.png").getImage();
+                // pacman facing right
+                if (random == 1) {
+                    pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman.png").getImage();
+                } else {
+                    pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_closed_right.png").getImage();
+                }
             } else if (angle >= 45 && angle < 135) {
                 // pacman facing up
-                pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_down.png").getImage();
+                if (random == 1) {
+                    pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_down.png").getImage();
+                } else {
+                    pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_closed_down.png").getImage();
+                }
             } else if (angle >= 135 && angle < 225) {
                 // pacman facing left
-                pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_left.png").getImage();
+                if (random == 1) {
+                    pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_left.png").getImage();
+                } else {
+                    pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_closed_left.png").getImage();
+                }
             } else if (angle >= 225 && angle < 315) {
                 // pacman facing down
-                pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_up.png").getImage();
+                if (random == 1) {
+                    pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_up.png").getImage();
+                } else {
+                    pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_closed_up.png").getImage();
+                }
             } else {
                 // pacman facing right
-                pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman.png").getImage();
+                if (random == 1) {
+                    pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman.png").getImage();
+                } else {
+                    pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_closed_right.png").getImage();
+                }
             }
             return pacmanImage.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        } else {
+
+        } else if (data[rowIndex][columnIndex] == 21) {
+            pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_wall.png").getImage();
+            return pacmanImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        }
+        else {
+            
             return null;
+        
         }
     }
 
