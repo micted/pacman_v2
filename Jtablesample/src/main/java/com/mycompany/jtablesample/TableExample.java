@@ -53,6 +53,7 @@ public class TableExample extends JFrame {
         mazeD[row][col] = 1;
         
         
+        
 
         PacmanTableModel model = new PacmanTableModel(mazeD);
         JTable table = new JTable(model);

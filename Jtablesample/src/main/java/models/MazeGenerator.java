@@ -28,7 +28,7 @@ public class MazeGenerator {
             // start at a random cell
             int startRow = rand.nextInt(maze.length);
             int startCol = rand.nextInt(maze[0].length);
-            maze[startRow][startCol] = 0; // mark the starting cell as a passage
+            maze[startRow][startCol] = 7; // mark the starting cell as a passage
             List<int[]> stack = new ArrayList<>();
             stack.add(new int[]{startRow, startCol});
 
@@ -44,9 +44,9 @@ public class MazeGenerator {
                     // remove the wall between the current cell and the chosen neighbor
                     int wallRow = (row + neighborRow) / 2;
                     int wallCol = (col + neighborCol) / 2;
-                    maze[wallRow][wallCol] = 0;
+                    maze[wallRow][wallCol] = 7;
                     // mark the chosen neighbor as a passage and add it to the stack
-                    maze[neighborRow][neighborCol] = 0;
+                    maze[neighborRow][neighborCol] = 7;
                     stack.add(neighbor);
 
                 } else {

@@ -29,6 +29,16 @@ public class PacmanTableModel extends AbstractTableModel implements PacmanTableL
     public int getValue(int rowIndex, int columnIndex) {
         return data[rowIndex][columnIndex] == 1 ? 1 : 0;
     }
+    
+    public void setValue(int value, int rowIndex, int columnIndex) {
+    data[rowIndex][columnIndex] = value;
+    }
+    
+    public int getCellValue(int rowIndex, int columnIndex) {
+        
+        return data[rowIndex][columnIndex];
+    }
+
 
 
     @Override
@@ -98,9 +108,14 @@ public class PacmanTableModel extends AbstractTableModel implements PacmanTableL
             pacmanImage = new ImageIcon("C://Users//Hp//Pictures//pacman_wall.png").getImage();
             return pacmanImage.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         }
+        else if (data[rowIndex][columnIndex] == 7) {
+            pacmanImage  = new ImageIcon("C://Users//Hp//Pictures//pacman_food.png").getImage();
+            return pacmanImage.getScaledInstance(18, 14, Image.SCALE_SMOOTH);
+        }
+        
         else {
             
-            return null;
+            return null;            
         
         }
     }

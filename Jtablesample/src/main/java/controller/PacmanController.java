@@ -84,16 +84,16 @@ public class PacmanController implements KeyListener {
         // check new cell within the bound
         if (currentRow >= 0 && currentRow < model.getRowCount() && currentCol >= 0 && currentCol < model.getColumnCount()) {
             
-            if (model.getValueAt(currentRow, currentCol) != null && model.getValueAt(currentRow, currentCol).equals(21)) {
-                // do not move if it's a wall
-                return;
-            }
+            
 
             // check if the new cell is already occupied by another Pacman image
-            if (model.getValueAt(currentRow, currentCol) == null) {
-                // zero to make the pacman image disappear
+            if (model.getValueAt(currentRow, currentCol) == null || model.getCellValue(currentRow, currentCol) == 7) {
+                
+                                   
+                
                 model.setValueAt(0, pacmanRow, pacmanCol);
                 model.setValueAt(1, currentRow, currentCol);
+                System.out.println("normal pacman way"+model.getValue(currentRow, currentCol));
                 table.repaint(); 
 
                 // update the current position of the Pacman image
@@ -103,11 +103,12 @@ public class PacmanController implements KeyListener {
                 // calculate rotation angle and notify listeners
                 int angle = calculateRotationAngle();
                 
-                System.out.println(angle);
+                
                 for (PacmanTableListener listener : tableListeners) {
                     listener.onPacmanRotated(angle,randomValue);
                 }
             }
+            
         }
     }
     
