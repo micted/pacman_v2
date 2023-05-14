@@ -1,5 +1,7 @@
 package controller;
 
+import com.mycompany.jtablesample.TableExample;
+import config.Config;
 import interfaces.PacmanTableListener;
 import java.util.List;
 import java.awt.event.ActionEvent;
@@ -22,11 +24,16 @@ public class PacmanController implements KeyListener {
     private Thread pacmanThread;
     private List<PacmanTableListener> tableListeners = new ArrayList<>();
     int randomValue;
-     private final Object lock = new Object();
+    
+     
+    private final Object lock = new Object();
 
     public PacmanController(JTable table, PacmanTableModel model) {
         this.table = table;
         this.model = model;
+        
+        
+        
         // find the initial row and column of the Pacman image
         for (int row = 0; row < model.getRowCount(); row++) {
             for (int col = 0; col < model.getColumnCount(); col++) {
@@ -89,6 +96,14 @@ public class PacmanController implements KeyListener {
             // check if the new cell is already occupied by another Pacman image
             if (model.getValueAt(currentRow, currentCol) == null || model.getCellValue(currentRow, currentCol) == 7) {
                 
+                
+                if (model.getCellValue(currentRow, currentCol) == 7) {
+                int score = Config.getScore() + 1;
+                Config.setScore(score);
+                System.out.println(score);
+                Config.getScoreLabel().setText("Score: " + Config.getScore());
+                }
+                
                                    
                 
                 model.setValueAt(0, pacmanRow, pacmanCol);
@@ -105,7 +120,10 @@ public class PacmanController implements KeyListener {
                 
                 
                 for (PacmanTableListener listener : tableListeners) {
-                    listener.onPacmanRotated(angle,randomValue);
+                    if(listener != null) {
+                        listener.onPacmanRotated(angle,randomValue);
+                        
+                    }
                 }
             }
             

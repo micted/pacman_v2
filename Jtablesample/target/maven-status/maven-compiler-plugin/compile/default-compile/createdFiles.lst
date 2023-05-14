@@ -1,2 +1,5 @@
-models\MazeGenerator.class
+config\Config.class
 models\Pacman.class
+interfaces\PacmanTableListener.class
+models\MazeGenerator.class
+com\mycompany\jtablesample\TableExample.class

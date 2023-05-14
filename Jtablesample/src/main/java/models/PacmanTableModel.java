@@ -15,6 +15,7 @@ public class PacmanTableModel extends AbstractTableModel implements PacmanTableL
     private int currentCol;
     private int angle = 0;
     private int random = 0;
+    private int score = 0;
         
     
 
@@ -37,6 +38,15 @@ public class PacmanTableModel extends AbstractTableModel implements PacmanTableL
     public int getCellValue(int rowIndex, int columnIndex) {
         
         return data[rowIndex][columnIndex];
+    }
+    
+    public int getScore() {
+        return score;
+    }
+    
+    public void setScore(int score) {
+        this.score = score;
+        fireTableDataChanged();
     }
 
 
@@ -139,6 +149,9 @@ public class PacmanTableModel extends AbstractTableModel implements PacmanTableL
     public Class<?> getColumnClass(int columnIndex) {
         return Image.class;
     }
+
+   
+
 }
 
 /*

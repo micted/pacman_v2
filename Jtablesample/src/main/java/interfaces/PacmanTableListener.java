@@ -10,5 +10,6 @@ package interfaces;
  */
 public interface PacmanTableListener {
     void onPacmanRotated(int angle,int random);
+    
 }
 

@@ -9,14 +9,21 @@ package com.mycompany.jtablesample;
  * @author Hp
  */
 
+import config.Config;
 import controller.PacmanController;
+import interfaces.PacmanTableListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.util.Random;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import models.MazeGenerator;
 import models.PacmanTableModel;
@@ -26,8 +33,16 @@ public class TableExample extends JFrame {
 
     private JTable table;
     private DefaultTableModel model;
+    private JLabel scoreLabel;
+    private JLabel lifeLabel;
+    private int score;
+    private int lives;
 
     public TableExample(int boardSize) {
+        
+        score = 0;
+        lives = 3;
+        
         // create the model and table with zeros
         //int[][] data = new int[boardSize][boardSize];
         int[][] mazeD = new MazeGenerator(boardSize,boardSize).generateMaze();
@@ -85,6 +100,26 @@ public class TableExample extends JFrame {
         PacmanController controller = new PacmanController(table, model);
         controller.addTableListener(model);
         table.addKeyListener(controller);
+        
+        scoreLabel = new JLabel("Score: " + score);
+        Config.setScoreLabel(scoreLabel);
+        scoreLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+        scoreLabel.setForeground(Color.WHITE);
+        scoreLabel.setHorizontalAlignment(SwingConstants.LEFT);
+
+        lifeLabel = new JLabel("Lives: " + lives);
+        lifeLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+        lifeLabel.setForeground(Color.WHITE);
+        lifeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+
+        // add labels to panel
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Color.BLACK);
+        panel.add(scoreLabel, BorderLayout.WEST);
+        panel.add(lifeLabel, BorderLayout.EAST);
+        
+        add(panel, BorderLayout.NORTH);
+        
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
@@ -95,7 +130,7 @@ public class TableExample extends JFrame {
     public static void main(String[] args) {
         // prompt user for board size
         int boardSize = Integer.parseInt(javax.swing.JOptionPane.showInputDialog(null, "Enter board size (between 10 and 100):"));
-
+        Config.setBoardSize(boardSize);
         // check if board size is within range
         if (boardSize < 10 || boardSize > 100) {
             System.out.println("Invalid board size.");
@@ -103,7 +138,12 @@ public class TableExample extends JFrame {
         }
 
         new TableExample(boardSize);
+        
     }
+
+    
+
+    
 }
 
 
