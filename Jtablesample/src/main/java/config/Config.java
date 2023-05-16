@@ -4,7 +4,7 @@
  */
 package config;
 
-import com.mycompany.jtablesample.TableExample;
+import view.TableExample;
 import javax.swing.JLabel;
 
 /**

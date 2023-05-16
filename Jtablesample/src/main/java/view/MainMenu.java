@@ -1,12 +1,16 @@
-package com.mycompany.jtablesample;
+package view;
 
+import controller.HighScoreManager;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import controller.PacmanController;
 
+
 public class MainMenu extends JFrame implements ActionListener {
+    
+    private HighScoreManager highScoremanager;
 
     public MainMenu() {
         setTitle("Menu");
@@ -57,6 +61,11 @@ public class MainMenu extends JFrame implements ActionListener {
             PacmanController.startGame();
         } else if (e.getActionCommand().equals("High Scores")) {
             // Handle high scores button click
+            SwingUtilities.invokeLater(() -> {
+            HighScoreWindow highScoreWindow = new HighScoreWindow();
+            highScoreWindow.setVisible(true);
+        });
+            
         } else if (e.getActionCommand().equals("Exit")) {
             System.exit(0);
         }

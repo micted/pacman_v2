@@ -1,4 +1,4 @@
-package com.mycompany.jtablesample;
+package view;
 
 
 

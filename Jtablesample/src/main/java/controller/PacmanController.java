@@ -1,6 +1,6 @@
 package controller;
 
-import com.mycompany.jtablesample.TableExample;
+import view.TableExample;
 import config.Config;
 import interfaces.PacmanTableListener;
 import java.util.List;
@@ -14,8 +14,12 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import models.PacmanTableModel;
-import com.mycompany.jtablesample.MainMenu;
+import view.MainMenu;
 import javax.swing.JFrame;
+import controller.HighScoreManager;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
+import models.HighScore;
 
 
 public class PacmanController implements KeyListener {
@@ -45,6 +49,7 @@ public class PacmanController implements KeyListener {
     public PacmanController(JTable table, PacmanTableModel model) {
         this.table = table;
         this.model = model;
+        
         
         
         
@@ -208,6 +213,7 @@ public class PacmanController implements KeyListener {
                 table.repaint(); 
 
                 if (life <= 0) {
+                    addHighScoreDialog();
                     // Gameover condition: no more lives left
                     gameover();
                     //new MainMenu();
@@ -468,6 +474,7 @@ public class PacmanController implements KeyListener {
                 enemyCol = 0;
                 enemyTwoRow = 0;
                 enemyTwoCol = 0;
+                addHighScoreDialog();
                 gameover();
                 
                 //new MainMenu();
@@ -483,11 +490,18 @@ public class PacmanController implements KeyListener {
     }
 
     
-   
+   private void addHighScoreDialog() {
+        String playerName = JOptionPane.showInputDialog(null, "Enter your name:");
+        if (playerName != null) {
+            HighScore hs = new HighScore(playerName, Config.getScore());
+            HighScoreManager.addHighScore(hs);
+        }
+    }
+
     
     
     private void gameover() {
-        System.out.println("Game Over");
+        System.out.println("Game Over");       
 
         // Pause the game
         pacmanThread.interrupt();
