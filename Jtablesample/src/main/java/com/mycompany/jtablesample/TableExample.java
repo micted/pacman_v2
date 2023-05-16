@@ -66,8 +66,8 @@ public class TableExample extends JFrame {
         int row = random.nextInt(boardSize);
         int col = random.nextInt(boardSize);
         mazeD[row][col] = 1;
-        
-        
+        mazeD[5][5] = 12;
+        mazeD[9][5] = 2;
         
 
         PacmanTableModel model = new PacmanTableModel(mazeD);
@@ -108,6 +108,7 @@ public class TableExample extends JFrame {
         scoreLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
         lifeLabel = new JLabel("Lives: " + lives);
+        Config.setLifeLabel(lifeLabel);
         lifeLabel.setFont(new Font("Arial", Font.PLAIN, 24));
         lifeLabel.setForeground(Color.WHITE);
         lifeLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -126,22 +127,6 @@ public class TableExample extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
-    public static void main(String[] args) {
-        // prompt user for board size
-        int boardSize = Integer.parseInt(javax.swing.JOptionPane.showInputDialog(null, "Enter board size (between 10 and 100):"));
-        Config.setBoardSize(boardSize);
-        // check if board size is within range
-        if (boardSize < 10 || boardSize > 100) {
-            System.out.println("Invalid board size.");
-            System.exit(0);
-        }
-
-        new TableExample(boardSize);
-        
-    }
-
-    
 
     
 }

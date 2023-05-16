@@ -1,5 +1,13 @@
-config\Config.class
-models\Pacman.class
+controller\PacmanController$1.class
 interfaces\PacmanTableListener.class
-models\MazeGenerator.class
+controller\PacmanController.class
+models\PacmanTableModel.class
+config\Config.class
+com\mycompany\jtablesample\Renderer.class
+models\Pacman.class
+controller\PacmanController$3.class
+com\mycompany\jtablesample\MainMenu.class
 com\mycompany\jtablesample\TableExample.class
+com\mycompany\jtablesample\PacManRenderer.class
+models\MazeGenerator.class
+controller\PacmanController$2.class
